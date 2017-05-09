@@ -11,7 +11,10 @@
     <section class="row">
         <div class="small-6 columns">
             <h1 class="text-center">YOU</h1>
-            <img src="player.jpg" alt="" class="images">
+            <div id="playerContainer">
+                <img src="player.jpg" alt="" :class="{damage: playerDamaged}" class="images">
+                <div class="healIcon" :class="{healing: healing}">+10 Health</div>
+            </div>
             <div class="healthbar">
                 <div class="healthbar text-center"
                      style="background-color: green; margin: 0; color: white;"
@@ -22,7 +25,7 @@
         </div>
         <div class="small-6 columns">
             <h1 class="text-center">MONSTER</h1>
-            <img src="monster.jpg" alt="" class="images">
+            <img src="monster.jpg" alt="" :class="[{damage: monsterDamaged}, {specialDamage: specialDamage}]" class="images">
             <div class="healthbar">
                 <div class="healthbar text-center"
                      style="background-color: green; margin: 0; color: white;"
@@ -45,11 +48,11 @@
             <button id="give-up" @click="endGame">GIVE UP</button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="turns.length > 0">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="action in turns">
+                    <p :class="{'player-turn' : action.isPlayer, 'monster-turn' : !action.isPlayer}">{{action.text}}</p>
                 </li>
             </ul>
         </div>
